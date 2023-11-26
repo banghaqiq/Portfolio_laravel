@@ -1,0 +1,61 @@
+.nav{
+    background-color: transparent;
+}
+body{
+    background-image: url(https://png.pngtree.com/background/20230522/original/pngtree-black-background-with-colorful-mountains-picture-image_2692443.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.nav li a{
+    color: white;
+}
+.nav li a:hover{
+    color: rgb(0, 152, 163) !important;
+    /* border-bottom: 1px solid rgb(0, 152, 163); */
+}
+
+
+.card-header{
+    color: white !important;
+}
+.card-body{
+    color: white !important;
+    border-top: 1px solid white !important;
+}
+.card{
+    background-color: transparent !important;
+    border: 1px solid white !important;
+    margin-top: 6px;
+}
+
+.dropdown a{
+    color:white !important;
+}
+
+.dropdown .dropdown-menu a{
+    color: black !important;
+}
+.dropdown .dropdown-menu a:hover{
+    color: rgb(0, 152, 163) !important; 
+    border-bottom: none;
+}
+
+#submit:hover{
+    background-color: rgb(36, 67, 206) !important;
+}
+#reset:hover{
+    background-color: rgb(173, 25, 25) !important;
+}
+#hdr{
+    font-size: larger !important;
+    font-weight: bolder;
+}
+.login{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+textarea[placeholder="Masukkan deskripsi"]{
+    font-weight: bolder;
+    color: rgb(5, 5, 5) !important;
+    text-align: center !important;
+}
