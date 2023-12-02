@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
- <div class="row justify-content-center">
-  <div class="col-md-8">
+ <div class="row">
+  <div class="col-md-4">
    <div class="card">
     @if (session('pesan'))
     <div class='alert alert-info text-center text-bold' style="font-weight: bolder">{{ session('pesan') }}
@@ -43,46 +43,47 @@
     </div>
    </div>
   </div>
- </div>
-</div>
-</div>
-<div class="container">
- <div class="row justify-content-center">
+  
   <div class="col-md-8">
-   <div class="card">
-    <div class="card-header" align="center" id="hdr">{{ __('Daftar Menu baru') }}</div>
-    <div class="card-body">
-     <table class="table table-dark table-striped" >
-      <thead>
-        <tr style="background-color: transparent !important;">
-          <th scope="col">No</th>
-          <th scope="col">Nama Menu</th>
-          <th scope="col">Status</th>
-          <th scope="col">URl</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-       @foreach ($data as $d) 
-        <tr>
-         <th scope="row">{{ $loop->iteration }}</th>
-         <td>{{ $d->nama_menu }}</td>
-         <td>{{ $d->status }}</td>
-         <td>{{ $d->url }}</td>
-         <td>
-          <div  class="d-grid gap-2 d-md-block">
-            <a href="{{ route('editmenu', $d->id) }}" class="btn btn-sm btn-warning">Edit</a>
-            <a href="{{ route('deletemenu', $d->id) }}" class="btn btn-sm btn-danger">Delete</a>
-          </div>
-        </td>
-        </tr>
-       @endforeach
-      </tbody>
-    </table>
+    <div class="card">
+     <div class="card-header" align="center" id="hdr">{{ __('Daftar Menu baru') }}</div>
+     <div class="card-body">
+      <table class="table table-dark table-striped" >
+       <thead>
+         <tr>
+           <th scope="col">No</th>
+           <th scope="col">Nama Menu</th>
+           <th scope="col">Status</th>
+           <th scope="col">URl</th>
+           <th scope="col">Action</th>
+         </tr>
+       </thead>
+       <tbody>
+        @foreach ($data as $d) 
+         <tr>
+          <th scope="row">{{ $loop->iteration }}</th>
+          <td>{{ $d->nama_menu }}</td>
+          <td>{{ $d->status }}</td>
+          <td>{{ $d->url }}</td>
+          <td>
+           <div  class="d-grid gap-2 d-md-block">
+             <a href="{{ route('editmenu', $d->id) }}" class="btn btn-sm btn-warning">Edit</a>
+             <form action='{{ route('deletemenu', $d->id) }}' method='POST' style='display: inline;'>
+             @csrf
+             @method('DELETE')
+             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
+             </form>
+           </div>
+         </td>
+         </tr>
+        @endforeach
+       </tbody>
+     </table>
+     </div>
     </div>
    </div>
-  </div>
  </div>
+</div>
 </div>
 
 

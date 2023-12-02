@@ -53,17 +53,11 @@ class HomeController extends Controller
         return redirect()->route('addmenu')->with('pesan', 'Data anda telah diubah');
     }   
 
-    public function delete(Request $request ,$id_delete)
+    public function delete(Request $request ,MenuModel $id_delete)
     {
-    // Mendapatkan data berdasarkan id
-    $menu_delete = MenuModel::find($request->id_delete);
-
-    // Jika variabel tidak kosong
-    if ($menu_delete !== null) {
-        // Memanggil fungsi delete
-        $menu_delete->delete();
-        return redirect()->route('addmenu')->with('success', 'Data anda berhasil dihapus');
-    }
+        $id_delete->delete();
+        
+        return redirect()->route('addmenu')->with('pesan', 'Data anda telah dihapus');
     }
     
     
@@ -77,9 +71,35 @@ class HomeController extends Controller
     }
     
     public function createprofile(Request $request){
-        
-        AboutModel::create($request->all());
-        
+        $request->validate([
+            'profile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'deskripsi' => 'required',
+            'url' => 'required',
+        ]);
+    
+        // $post = new AboutModel([
+        //     'deskripsi' => $request->input('deskripsi'),
+        //     'url' => $request->input('url'),
+        // ]);
+    
+        if ($request->has('profile')) {
+            $image = $request->file('profile');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $name);
+    
+            $post = $name;
+        } else {
+            $post = null;
+        }
+
+        AboutModel::create([
+            'profile' => $post,
+            'deskripsi' => $request->get('deskripsi'),
+            'url' => $request->get('url'),
+        ]);
+
+        // dd($cek);
         return redirect()->route('addprofile')->with('pesan', 'Data anda telah tersimpan');
     }
     
@@ -88,14 +108,44 @@ class HomeController extends Controller
         return view('editAbout', compact('edit_profile'));
     }
     
-    public function updateprofile(Request $request, AboutModel $edit_profile)
+    public function updateprofile(Request $request, $edit_profile)
     {
-        $edit_profile->update($request->all());
+        // $request->validate([
+        //     'profile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //     'description' => 'required',
+        //     'deskripsi' => 'required',
+        //     'url' => 'required',
+        // ]);
+    
+        $editProfil = AboutModel::findOrFail($edit_profile);
+    
+        if ($request->hasFile('profile')) {
+            $image = $request->file('profile');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $name);
+    
+            if ($editProfil->profile) {
+                $old_image = $editProfil->profile;
+                $editProfil->profile = $name;
+            } else {
+                $editProfil->profile = $name;
+            }
+        }
 
-        // dd($cek);
-
-        return redirect()->route('addprofile')->with('pesan', 'Data anda telah diubah');
-    }   
+        $editProfil->deskripsi = $request->input('deskripsi');
+        $editProfil->url = $request->input('url');
+        $cek = $editProfil->save();
+    
+        // Hapus foto lama
+        if ($request->hasFile('profile') && $editProfil->image) {
+            if (file_exists(public_path('images/'.$old_image))) {
+                unlink(public_path('images/'.$old_image));
+            }
+        }
+    
+        // return redirect()->route('addprofile')->with('pesan','Profil berhasil diupdate');
+    }
 
     public function deleteprofile(Request $request ,$delete_profile)
     {
@@ -103,11 +153,11 @@ class HomeController extends Controller
     $about_delete = AboutModel::find($request->delete_profile);
 
     // Jika variabel tidak kosong
-    if ($about_delete !== null) {
-        // Memanggil fungsi delete
-        $about_delete->delete();
-        return redirect()->route('addprofile')->with('success', 'Data anda berhasil dihapus');
-    }
+        if ($about_delete !== null) {
+            // Memanggil fungsi delete
+            $about_delete->delete();
+            return redirect()->route('addprofile')->with('success', 'Data anda berhasil dihapus');
+        }
     }
 
 

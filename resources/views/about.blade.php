@@ -9,13 +9,16 @@
                 <div class="card">
                     <div class="card-header" align="center" id="hdr">{{ __('Halaman Profile') }}</div>
                     <div class="card-body">
-                        <form class="row g-3" action="{{ route('createprofile') }}" method="POST">
+                        <form class="row g-3" action="{{ route('createprofile') }}" method="POST" enctype="multipart/form-data">
                             <div class="col-md-12">
                                 @csrf
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <label for="nama-profil" class="form-label">Profile</label>
                                 <input type="file" accept=".jpg,.png,.jpeg" class="form-control" id="profile" name="profile"
                                     placeholder="Masukkan foto">
+                                @error('profile')
+                                    {{ $message }}
+                                @enderror
                                 <div class="col-md-12">
                                     <label for="status" class="form-label">Deskripsi</label>
                                     <textarea class="form-control" id="deskripsi" name="deskripsi" cols="30" rows="10" placeholder="Masukkan deskripsi"></textarea>
@@ -61,7 +64,13 @@
                                     @foreach ($profile as $d) 
                                     <tr>
                                      <th scope="row">{{ $loop->iteration }}</th>
-                                     <td>{{ $d->profile }}</td>
+                                     <td>
+                                        @if ($d->profile == NULL)
+                                        <img src="{{ asset('images/img.webp') }}" width="80px">
+                                        @else
+                                        <img src="{{ asset('images') }}/{{ $d->profile }}" width="80px">
+                                        @endif
+                                     </td>
                                      <td>{{ $d->deskripsi }}</td>
                                      <td>{{ $d->url }}</td>
                                      <td>

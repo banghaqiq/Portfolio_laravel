@@ -29,6 +29,6 @@ class CreateTbAbout extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_about');
+        Schema::dropIfExists('tb_abouts');
     }
 }
