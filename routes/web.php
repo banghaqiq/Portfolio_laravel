@@ -30,34 +30,26 @@ Auth::routes([
 ]);
 
 Route::prefix('admin/')->group(function () {
+
+  // setting menu
+
  Route::get('/add-menu', [HomeController::class, 'index'])->name('addmenu');
  Route::post('/create-menu', [HomeController::class, 'create'])->name('createmenu');
  Route::get('/menu-edit/{id_edit}/edit', [HomeController::class, 'edit'])->name('editmenu');
  Route::put('/menu-update/{id_edit}/update', [HomeController::class, 'update'])->name('updatemenu');
  Route::get('/menu-delete/{id_delete}/delete', [HomeController::class, 'delete'])->name('deletemenu');
  Route::delete('/menu-delete/{id_delete}/delete', [HomeController::class, 'delete'])->name('deletemenu');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
+ // setting profile
+ 
  Route::get('/add-profile', [HomeController::class, 'about'])->name('addprofile');
  Route::post('/create-profile', [HomeController::class, 'createprofile'])->name('createprofile');
+ Route::get('/profile-edit/{edit_profile}/edit', [HomeController::class, 'editprofile'])->name('editprofile');
+ Route::put('/profile-update/{edit_profile}/update', [HomeController::class, 'updateprofile'])->name('updateprofile');
+ Route::get('/profile-delete/{delete_profile}/delete', [HomeController::class, 'deleteprofile'])->name('deleteprofile');
+ Route::delete('/profile-delete/{delete_profile}/delete', [HomeController::class, 'deleteprofile'])->name('deleteprofile');
  
-
+ // setting service
 
  Route::get('/add-service', [HomeController::class, 'service'])->name('addservice');
  Route::post('/create-service', [HomeController::class, 'createservice'])->name('createservice');

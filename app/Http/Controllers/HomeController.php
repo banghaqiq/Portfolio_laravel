@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MenuModel;
+use App\Models\AboutModel;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -64,21 +65,56 @@ class HomeController extends Controller
         return redirect()->route('addmenu')->with('success', 'Data anda berhasil dihapus');
     }
     }
-
-
+    
+    
     // endblock menu 
-
+    
 
     public function about()
     {
-        return view('about');
+        $profile = AboutModel::all();
+        return view('about',compact('profile'));
     }
-
+    
     public function createprofile(Request $request){
-        MenuModel::create($request->all());
-
-        return redirect()->route('addmenu')->with('pesan', 'Data anda telah tersimpan');
+        
+        AboutModel::create($request->all());
+        
+        return redirect()->route('addprofile')->with('pesan', 'Data anda telah tersimpan');
     }
+    
+    public function editprofile(AboutModel $edit_profile)
+    {
+        return view('editAbout', compact('edit_profile'));
+    }
+    
+    public function updateprofile(Request $request, AboutModel $edit_profile)
+    {
+        $edit_profile->update($request->all());
+
+        // dd($cek);
+
+        return redirect()->route('addprofile')->with('pesan', 'Data anda telah diubah');
+    }   
+
+    public function deleteprofile(Request $request ,$delete_profile)
+    {
+    // Mendapatkan data berdasarkan id
+    $about_delete = AboutModel::find($request->delete_profile);
+
+    // Jika variabel tidak kosong
+    if ($about_delete !== null) {
+        // Memanggil fungsi delete
+        $about_delete->delete();
+        return redirect()->route('addprofile')->with('success', 'Data anda berhasil dihapus');
+    }
+    }
+
+
+
+
+
+
 
     public function service()
     {

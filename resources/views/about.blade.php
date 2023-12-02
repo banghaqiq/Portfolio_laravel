@@ -9,8 +9,10 @@
                 <div class="card">
                     <div class="card-header" align="center" id="hdr">{{ __('Halaman Profile') }}</div>
                     <div class="card-body">
-                        <form class="row g-3">
+                        <form class="row g-3" action="{{ route('createprofile') }}" method="POST">
                             <div class="col-md-12">
+                                @csrf
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <label for="nama-profil" class="form-label">Profile</label>
                                 <input type="file" accept=".jpg,.png,.jpeg" class="form-control" id="profile" name="profile"
                                     placeholder="Masukkan foto">
@@ -52,15 +54,24 @@
                                     <th scope="col">Profile</th>
                                     <th scope="col">Deskripsi</th>
                                     <th scope="col">URL</th>
+                                    <td scope="col">Action</td>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <th scope="row"></th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                  </tr>
+                                    @foreach ($profile as $d) 
+                                    <tr>
+                                     <th scope="row">{{ $loop->iteration }}</th>
+                                     <td>{{ $d->profile }}</td>
+                                     <td>{{ $d->deskripsi }}</td>
+                                     <td>{{ $d->url }}</td>
+                                     <td>
+                                      <div class="d-grid gap-2 d-md-block">
+                                        <a href="{{ route('editprofile', $d->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="{{ route('deleteprofile', $d->id) }}" class="btn btn-sm btn-danger">Delete</a>
+                                      </div>
+                                    </td>
+                                    </tr>
+                                   @endforeach
                                 </tbody>
                               </table>
                         </div>
